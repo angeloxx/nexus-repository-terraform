@@ -248,7 +248,7 @@ public class TerraformProxyFacetImpl
             String downloadUrl = terraformPathUtils
                     .toProviderVersionDownloadPath(url, (String)os.getKey(), arch, matcherState);
             log.debug("Fetching filename for {} on {} from {}", os.getKey(), arch, downloadUrl);
-            response = super.fetch(downloadUrl, context, stale);
+            response = super.fetch(downloadUrl, context, null);
             if (response == null){
               log.debug("Filename for {} on {} not found", os.getKey(), arch);
               continue;
@@ -261,7 +261,7 @@ public class TerraformProxyFacetImpl
       case PROVIDER_VERSIONS:
         url = terraformPathUtils.toProviderVersionsPath(url, matcherState);
         log.debug("Fetching versions from {}", url);
-        response = super.fetch(url, context, stale);
+        response = super.fetch(url, context, null);
         Content versions = terraformDataUtils.providerVersionsJson(response);
         response.close();
         return versions;
@@ -272,9 +272,9 @@ public class TerraformProxyFacetImpl
         String downloadUrl = terraformDataUtils.getDownloadUrl(response);
         response.close();
         log.debug("Fetching archive from {}", downloadUrl);
-        return super.fetch(downloadUrl, context, stale);
+        return super.fetch(downloadUrl, context, null);
       default:
-        return super.fetch(url, context, stale);
+        return super.fetch(url, context, null);
     }
   }
 
